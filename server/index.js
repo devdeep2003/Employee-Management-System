@@ -1,24 +1,24 @@
-import express from 'express'
-import mongoose from 'mongoose'
+import express from "express";
+import mongoose from "mongoose";
 
-
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
-    mongoose.connect('mongodb+srv://deepchakraborty200318:W-q9+bbtJRb$_8K@cluster0.2zouj.mongodb.net/EmployeeManagementSystem')
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URL);
+    console.log(`Mongo DB connected at host ${mongoose.connection.host}`);
+  } catch (e) {
+    console.log(e);
+  }
+};
 
-
-const userSchema = new mongoose.Schema({
-    name : String,
-    age : Number
-})
-
-const userModel = mongoose.model("employee" , userSchema);
-
-
+connectDB();
 
 app.use(express.json());
 
-app.listen(process.env.PORT , ()=>{
-    console.log(`Server is running on port ${process.env.PORT}`);
-})
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${process.env.PORT}`);
+});
